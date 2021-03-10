@@ -11,3 +11,8 @@ CODICI
 - network_scraping.py: file per scraping (disordinato e illeggibile)
 - investors__scraping: file per scraping investors
 - coordinates: file per sistemare il dataset from scraping e prendere coordinate
+
+DRIVE
+-df_tot_org: dati completi per le transazioni
+-df_tot_inv: dati completi per investors
+_Warning_: casi di omonimia regione-città
