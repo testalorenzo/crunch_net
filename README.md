@@ -1,4 +1,9 @@
 # crunch_net
+## update June, 10th 2021
+You need only to look at the new folder "data".
+
+
+
 Crunchbase health care 51K firms - let's connect them
 
 DATASETS
