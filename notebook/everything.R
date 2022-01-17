@@ -17,9 +17,9 @@ orginfo <- read_csv("orginfo.csv", col_types = cols(index = col_character()))
 orginfo <- orginfo[,-c(1,3)]
 regdata <- as.data.frame(covariate[,3:9])
 
-data2 <- read_csv("aligned_data.csv")
+data2 <- read_csv("aligned_data.csv") #aligned data
 data2[is.na(data2)] <- 0
-data2 <- sapply(data2, FUN=cumsum)
+data2 <- sapply(data2, FUN=cumsum) #apply di cumulative sum sulle colonne
 data2 <- data2[,-1]
 #great0 <- data2[20,]>0
 #data2 <- data2[,great0]
@@ -41,7 +41,9 @@ hist(log(regdata$bet_max+0.001))
 hist(log(regdata$avg_max+1))
 hist(regdata$newman_max)
 
-dt <- merge(orginfo, covariate, 'index')
+dt <- merge(orginfo, covariate, 'index') #merging 
+
+#Trasformazione logaritmica - normalizzi
 
 dt['eigen_max'] <- log(dt$eigen_max+0.01)
 dt['pages_max'] <- log(dt$pages_max+0.001)
@@ -57,16 +59,17 @@ dt['newman'] <- log(dt$newman+0.001)
 dt['subgraph'] <- log(dt$subgraph)
 dt['average'] <- log(dt$average)
 
-dt <- dt[,-c(10,17)]
+dt <- dt[,-c(10,17)] #tolto colonne
 
-cumulate <- data2[10,]
+
+cumulate <- data2[10,] #decima riga
 cumulate <- as.data.frame(cumulate)
 cumulate['index'] <- rownames(cumulate)
 dt <- merge(dt, cumulate, by='index')
 
-content <- read_csv("content.csv", col_types = cols(index_x = col_character()))
+content <- read_csv("content.csv", col_types = cols(index_x = col_character())) #vivo o morto per industria
 
-avg_per_sector <- read_csv("avg_per_sector.csv")
+avg_per_sector <- read_csv("avg_per_sector.csv") 
 avg_per_sector <- avg_per_sector[, c(1,2,4,7)]
 avg_per_sector[is.na(avg_per_sector)] <- 0
 avg_per_sector <- avg_per_sector %>%
