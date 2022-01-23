@@ -1,0 +1,41 @@
+---
+title: "ANS extension: Function-on-scalar regression"
+author: "Lorenzo Testa"
+date: "1/23/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(refund)
+library(tidyverse)
+library(readr)
+```
+
+## Data preparation
+
+We have to import both scalar covariates and functional responses for the following regressions.
+
+```{r cars}
+covariates=read_csv('covariates_for_R.csv')
+response=read_csv('responses_for_R.csv')
+```
+
+Note that covariates have already been preprocessed in Python. 
+
+## Function-on-scalar regression
+
+Here we run the regression on a subset of covariates (see Python for feature selection)
+
+```{r pressure, ec}
+modmat=cbind(1,as.matrix(dt[!is.na(dt[,3]) & !is.na(dt[,12]),-c(15,16)]))
+y=t(as.matrix(data2[1:10, rownames(dt[!is.na(dt[,3]) & !is.na(dt[,12]),])]))
+olsmod = fosr(Y=y, X = modmat[,c(1,12,15, 3, 6)], method='OLS', lambda=0.000001)
+plot(olsmod)
+
+olsmod$est.func
+```
+
