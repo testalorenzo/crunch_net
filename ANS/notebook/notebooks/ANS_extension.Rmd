@@ -24,18 +24,34 @@ covariates=read_csv('covariates_for_R.csv')
 response=read_csv('responses_for_R.csv')
 ```
 
-Note that covariates have already been preprocessed in Python. 
+Note that covariates have already been preprocessed in Python. We need to perform some transpositions and row to column stuff (refund is very restrictive in terms of admissible inputs).
+
+```{r}
+covariates=column_to_rownames(covariates, 'idx') 
+covariates=covariates[,-c(1:3)] # remove controls
+covariates=as.matrix(cbind(1, covariates))
+response=response[, -1]
+response=t(response)
+```
+
 
 ## Function-on-scalar regression
 
 Here we run the regression on a subset of covariates (see Python for feature selection)
 
 ```{r pressure, ec}
-modmat=cbind(1,as.matrix(dt[!is.na(dt[,3]) & !is.na(dt[,12]),-c(15,16)]))
-y=t(as.matrix(data2[1:10, rownames(dt[!is.na(dt[,3]) & !is.na(dt[,12]),])]))
-olsmod = fosr(Y=y, X = modmat[,c(1,12,15, 3, 6)], method='OLS', lambda=0.000001)
-plot(olsmod)
-
-olsmod$est.func
+rows=c(1,2,3)
+olsmod = fosr(Y=response[complete.cases(covariates[,rows]),], X = covariates[complete.cases(covariates[,rows]),rows], method='OLS', lambda=0.000001)
 ```
 
+... And we save the results -- going back to Python
+
+```{r}
+coef_estimate=as.data.frame(olsmod$est.func)
+se_estimate=as.data.frame(olsmod$se.func)
+
+write_csv(coef_estimate, 'funcoef_estimate.csv')
+write_csv(se_estimate, 'funse_estimate.csv')
+```
+
+Done! :-)
