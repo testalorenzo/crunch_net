@@ -40,7 +40,7 @@ response=t(response)
 Here we run the regression on a subset of covariates (see Python for feature selection)
 
 ```{r pressure, ec}
-rows=c(1,2,3)
+rows=c(1, 8, 17, 29, 7, 13, 15)
 olsmod = fosr(Y=response[complete.cases(covariates[,rows]),], X = covariates[complete.cases(covariates[,rows]),rows], method='OLS', lambda=0.000001)
 ```
 
