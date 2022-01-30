@@ -56,8 +56,8 @@ log_olsmod = fosr(Y=log_response[complete.cases(covariates[,rows]),], X = covari
 coef_estimate=as.data.frame(olsmod$est.func)
 se_estimate=as.data.frame(olsmod$se.func)
 
-write_csv(coef_estimate, 'funcoef_estimate.csv')
-write_csv(se_estimate, 'funse_estimate.csv')
+#write_csv(coef_estimate, 'funcoef_estimate.csv')
+#write_csv(se_estimate, 'funse_estimate.csv')
 
 log_coef_estimate=as.data.frame(log_olsmod$est.func)
 log_se_estimate=as.data.frame(log_olsmod$se.func)
